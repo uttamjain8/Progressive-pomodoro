@@ -1,4 +1,5 @@
 ## Progressive Pomodoro Session Tracker
+>***"Be intentionally focused, choose to distract, or rest when needed."***
 
 **Track your productivity, not your personal data.**
 
@@ -22,6 +23,7 @@ The **Progressive Pomodoro Session Tracker** is designed to help you maintain fo
 - **Privacy-First**: No tracking, data mining, or unwanted sharing. Your data is for your eyes only.
 
 ---
+
 
 This app adapts to your natural flow, helping you stay productive without distractions while respecting your privacy at every step.
 
