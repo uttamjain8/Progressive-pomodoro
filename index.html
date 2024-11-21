@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Timeline with Timer</title>
+  <style>
+    /* Define default (light mode) theme */
+    :root {
+      --background-color: #ffffff;
+      --text-color: #000000;
+      --button-bg: #4CAF50;
+      --button-hover-bg: #45a049;
+      --button-text-color: white;
+      --button-border-radius: 5px;
+    }
+
+    /* Dark mode variables */
+    [data-theme="dark"] {
+      --background-color: #000000; /* AMOLED compatible background */
+      --text-color: #ffffff;
+      --button-bg: #9e9e9e;
+      --button-hover-bg: #757575;
+      --button-text-color: #000000;
+    }
+
+    /* General styles */
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+	  display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    canvas {
+      border: 1px solid #ddd;
+      margin-top: 20px;
+    }
+
+    #timeline-tooltip {
+      position: absolute;
+      padding: 8px;
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      border-radius: 4px;
+      pointer-events: none;
+      display: none;
+      font-size: 12px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+      z-index: 1000;
+    }
+
+    #buttons-container {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .focused { background-color: #9de79e; }
+    .distracted { background-color: #e79d9d; }
+    .rest { background-color: #9dc9e7; }
+
+  #timer-container {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  #active-timer {
+    font-size: 8em;
+    font-weight: bold;
+    color: #333;
+    transition: color 0.3s ease, transform 0.3s ease;
+  }
+
+  #mode-indicator {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-top: 10px;
+    color: #666;
+  }
+
+  /* Colors for different modes */
+  .focused-mode #active-timer {
+    color: #68c568;
+    transform: scale(1.1);
+  }
+
+  .distracted-mode #active-timer {
+    color: #c56868;
+    transform: scale(1.1);
+  }
+
+  .rest-mode #active-timer {
+    color: #68a1c5;
+    transform: scale(1.1);
+  }
+      #downloadButton {
+      position: fixed;
+      bottom: 20px;  /* Distance from the bottom */
+      right: 20px;   /* Distance from the right */
+      padding: 10px 20px;
+      background-color: #4CAF50; /* Green background */
+      color: white;  /* White text */
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      z-index: 1000;  /* Make sure it's on top of other elements */
+    }
+
+    #downloadButton:hover {
+      background-color: #45a049;  /* Darker green on hover */
+    }
+    /* Toggle theme button styles */
+    #theme-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 10px 20px;
+      background-color: #f39c12;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      z-index: 1000;
+    }
+
+    #theme-toggle:hover {
+      background-color: #e67e22;
+    }
+	
+  </style>
+</head>
+<body>
+<button id="theme-toggle">Toggle Dark Mode</button>
+  <div id="timer-container">
+    <h1 id="active-timer">00:00:00</h1>
+	<p id="mode-indicator"></p>
+  </div>
+
+  <div id="buttons-container">
+    <button class="focused" onclick="startSession('focused')">I Am Focused</button>
+    <button class="distracted" onclick="startSession('distracted')">Intentionally Distracted</button>
+    <button class="rest" onclick="startSession('rest')">Rest</button>
+  </div>
+
+  <canvas id="timeline" width="800" height="100"></canvas>
+  <div id="timeline-tooltip"></div>
+<button id="downloadButton" onclick="downloadSessionLogs()">Download All Logs</button>
+  <script src="script.js"></script>
+  <script>
+      // Theme toggle function
+    document.getElementById('theme-toggle').addEventListener('click', () => {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      if (currentTheme === 'dark') {
+        document.documentElement.removeAttribute('data-theme');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    });
+  </script>
+</body>
+</html>
